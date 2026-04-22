@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Effortless Onboarding | Client Onboarding Automation for Coaches & Consultants</title>
-    <meta name="description" content="Stop losing clients to messy onboarding. We automate your client experience from first contact to signed contract.">
+    <title>Nate & Kyle - Mission Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -12,661 +11,725 @@
             box-sizing: border-box;
         }
         
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #06b6d4;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
         }
         
-        .container {
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .login-box h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .login-box p {
+            color: #888;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .login-box input::placeholder {
+            color: #666;
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .login-box button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .dashboard {
+            display: none;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
         
-        /* Navigation */
-        nav {
-            background: #fff;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav .container {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .logo {
-            font-size: 1.5rem;
+        .header h1 {
+            font-size: 28px;
+        }
+        
+        .header .subtitle {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card .label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .value {
+            font-size: 28px;
             font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
         }
         
-        .nav-links {
+        .stat-card .value.positive {
+            color: #4ade80;
+        }
+        
+        .stat-card .value.negative {
+            color: #ff6b6b;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-list {
             list-style: none;
         }
         
-        .nav-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-        }
-        
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-        
-        .btn-large {
-            padding: 1rem 2rem;
-            font-size: 1.125rem;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-            padding: 6rem 0 4rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-        
-        .hero h1 span {
-            color: var(--primary);
-        }
-        
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-        
-        .hero-buttons {
+        .task-item {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .hero-note {
-            margin-top: 1.5rem;
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-        
-        /* Problem Section */
-        .problem {
-            padding: 5rem 0;
-            background: #fff;
-        }
-        
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 3rem;
-        }
-        
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .section-header p {
-            font-size: 1.125rem;
-            color: var(--gray);
-        }
-        
-        .pain-points {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .pain-point {
-            background: #f8fafc;
-            padding: 2rem;
-            border-radius: 12px;
-            border-left: 4px solid #ef4444;
-        }
-        
-        .pain-point h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-        
-        .pain-point p {
-            color: var(--gray);
-        }
-        
-        /* Solution Section */
-        .solution {
-            padding: 5rem 0;
-            background: var(--dark);
-            color: #fff;
-        }
-        
-        .solution .section-header h2 {
-            color: #fff;
-        }
-        
-        .solution .section-header p {
-            color: #94a3b8;
-        }
-        
-        .workflow {
-            display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 3rem 0;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            transition: background 0.2s;
         }
         
-        .workflow-step {
-            background: rgba(255,255,255,0.1);
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 150px;
+        .task-item:hover {
+            background: rgba(255,255,255,0.08);
         }
         
-        .workflow-step .icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .task-item.completed {
+            opacity: 0.6;
         }
         
-        .workflow-arrow {
-            font-size: 2rem;
-            color: var(--secondary);
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
         }
         
-        .benefits {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
         }
         
-        .benefit {
-            text-align: center;
-            padding: 1.5rem;
+        .task-checkbox.checked {
+            background: #4ade80;
+            border-color: #4ade80;
         }
         
-        .benefit .number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--secondary);
+        .task-checkbox.checked::after {
+            content: "✓";
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-text {
+            font-size: 15px;
+        }
+        
+        .task-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        
+        .priority-high {
+            color: #ff6b6b;
+        }
+        
+        .priority-medium {
+            color: #fbbf24;
+        }
+        
+        .priority-low {
+            color: #4ade80;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .badge-done {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 10px;
+            color: #888;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
             display: block;
         }
         
-        .benefit p {
-            color: #94a3b8;
-            margin-top: 0.5rem;
+        .add-task {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
         }
         
-        /* Services Section */
-        .services {
-            padding: 5rem 0;
-            background: #f8fafc;
-        }
-        
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .pricing-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        .pricing-card.featured {
-            border: 2px solid var(--primary);
-            transform: scale(1.05);
-        }
-        
-        .pricing-card.featured::before {
-            content: "Most Popular";
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
+        .add-task input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
             color: #fff;
-            padding: 0.25rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            font-size: 14px;
         }
         
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .pricing-card .price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .pricing-card .price span {
-            font-size: 1rem;
-            color: var(--gray);
-            font-weight: 400;
-        }
-        
-        .pricing-card ul {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-        
-        .pricing-card li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .pricing-card li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: 700;
-        }
-        
-        /* CTA Section */
-        .cta {
-            padding: 5rem 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        .add-task button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
-            text-align: center;
+            cursor: pointer;
         }
         
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .cta p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .cta .btn-secondary {
-            background: #fff;
-            color: var(--primary);
-            border-color: #fff;
-        }
-        
-        .cta .btn-secondary:hover {
-            background: transparent;
-            color: #fff;
-        }
-        
-        /* FAQ Section */
-        .faq {
-            padding: 5rem 0;
-            background: #fff;
-        }
-        
-        .faq-list {
-            max-width: 800px;
-            margin: 3rem auto 0;
-        }
-        
-        .faq-item {
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1.5rem 0;
-        }
-        
-        .faq-item h3 {
-            font-size: 1.125rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-        
-        .faq-item p {
-            color: var(--gray);
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: #94a3b8;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        footer p {
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
             }
             
-            .nav-links {
-                display: none;
+            .stat-card .value {
+                font-size: 24px;
             }
             
-            .section-header h2 {
-                font-size: 2rem;
-            }
-            
-            .pricing-card.featured {
-                transform: none;
-            }
-            
-            .workflow {
-                flex-direction: column;
-            }
-            
-            .workflow-arrow {
-                transform: rotate(90deg);
+            .login-box {
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <a href="#" class="logo">Effortless Onboarding</a>
-            <ul class="nav-links">
-                <li><a href="#problem">Problem</a></li>
-                <li><a href="#solution">Solution</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-            <a href="#audit" class="btn btn-primary">Free Audit</a>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>🦊 Nate & Kyle</h1>
+            <p>Mission Dashboard</p>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button onclick="login()">Enter Dashboard</button>
+            <div class="error" id="loginError">Incorrect password</div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Stop Losing Clients to <span>Messy Onboarding</span></h1>
-            <p>We build custom onboarding automations for coaches and consultants. Stop losing leads to manual follow-ups and scattered systems. Get your time back to focus on what you do best.</p>
-            <div class="hero-buttons">
-                <a href="#audit" class="btn btn-primary btn-large">Get Your Free Automation Audit</a>
-                <a href="#solution" class="btn btn-secondary btn-large">See How It Works</a>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="header">
+            <div>
+                <h1>🎯 Mission Dashboard</h1>
+                <div class="subtitle">$100 → $20,000 in 90 days</div>
             </div>
-            <p class="hero-note">⚡ Built for coaches & consultants who want to scale without the chaos</p>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-    </section>
-
-    <!-- Problem Section -->
-    <section class="problem" id="problem">
-        <div class="container">
-            <div class="section-header">
-                <h2>Manual Onboarding Is Costing You Clients</h2>
-                <p>When you're juggling follow-ups, scheduling, and paperwork, things fall through the cracks. And so do potential clients.</p>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Starting Budget</div>
+                <div class="value">$100</div>
             </div>
-            <div class="pain-points">
-                <div class="pain-point">
-                    <h3>❌ Missed Follow-ups</h3>
-                    <p>You meant to send that proposal yesterday, but got busy. Now the lead has gone cold.</p>
-                </div>
-                <div class="pain-point">
-                    <h3>❌ Scheduling Nightmares</h3>
-                    <p>5 emails back and forth just to find a 30-minute slot. Your time is worth more than this.</p>
-                </div>
-                <div class="pain-point">
-                    <h3>❌ Scattered Information</h3>
-                    <p>Client details in emails, DMs, notes apps, and your memory. Chaos creates mistakes.</p>
-                </div>
-                <div class="pain-point">
-                    <h3>❌ Manual Onboarding</h3>
-                    <p>Sending contracts, invoices, and welcome packets one by one. It's draining and error-prone.</p>
-                </div>
-                <div class="pain-point">
-                    <h3>❌ No-Show Appointments</h3>
-                    <p>Clients forget calls, wasting your time and killing momentum.</p>
-                </div>
-                <div class="pain-point">
-                    <h3>❌ Inconsistent Experience</h3>
-                    <p>Some clients get the VIP treatment, others fall through the cracks. Your reputation suffers.</p>
+            <div class="stat-card">
+                <div class="label">Revenue</div>
+                <div class="value positive" id="revenue">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Expenses</div>
+                <div class="value negative" id="expenses">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Net Profit</div>
+                <div class="value" id="profit">$0</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Solution Section -->
-    <section class="solution" id="solution">
-        <div class="container">
-            <div class="section-header">
-                <h2>What If Your Onboarding Just... Worked?</h2>
-                <p>No more chasing leads. No more scheduling ping-pong. Just a smooth experience that turns inquiries into paying clients.</p>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('business')">💼 Business Tasks</button>
+            <button class="tab" onclick="switchTab('content')">🎬 Content</button>
+            <button class="tab" onclick="switchTab('nate')">🤖 Nate's Tasks</button>
+            <button class="tab" onclick="switchTab('finances')">💰 Finances</button>
+            <button class="tab" onclick="switchTab('decisions')">📝 Decisions</button>
+        </div>
+        
+        <!-- Business Tasks -->
+        <div class="tab-content active" id="business">
+            <div class="section">
+                <h2>🔴 Kyle's Tasks (Business)</h2>
+                <ul class="task-list" id="kyleBusinessTasks">
+                    <li class="task-item completed" data-task="domain">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Register domain: effortlessonboarding.com ($10.19)</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="email">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Set up business email (Google Workspace or Zoho)</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="stripe">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create Stripe account</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="network">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Identify 10 potential clients in network</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Day 3</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="calendly">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Set up Calendly/scheduling link</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Day 2-3</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Content Tasks -->
+        <div class="tab-content" id="content">
+            <div class="section">
+                <h2>🎥 Kyle's Tasks (Content)</h2>
+                <ul class="task-list" id="kyleContentTasks">
+                    <li class="task-item" data-task="tiktok">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create TikTok account</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="youtube">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create YouTube channel</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="day0">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Film first "Day 0" video (intro + challenge)</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="tiktoks">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Post 3 TikToks this week</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Week 1</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>📝 Nate's Tasks (Content)</h2>
+                <ul class="task-list" id="nateContentTasks">
+                    <li class="task-item completed" data-task="review">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Review Kyle's footage, suggest edits</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Ready</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="scripts">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Write video scripts/outlines</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Nate's Tasks -->
+        <div class="tab-content" id="nate">
+            <div class="section">
+                <h2>🤖 Nate's Tasks</h2>
+                <ul class="task-list" id="nateTasks">
+                    <li class="task-item completed" data-task="direction">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Await business direction from Kyle</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="niche">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Research specific automation niches</div>
+                            <div class="task-meta"><span class="badge badge-pending">In Progress</span> • Day 1</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="landing">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Build landing page</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="outreach">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Draft cold outreach templates</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Finances -->
+        <div class="tab-content" id="finances">
+            <div class="section">
+                <h2>💳 Expense Tracker</h2>
+                <p style="color: #888; margin-bottom: 15px;">Currently using Kyle's personal card. Will switch to business card later.</p>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                            <th style="text-align: left; padding: 10px; color: #888;">Date</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Item</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Category</th>
+                            <th style="text-align: right; padding: 10px; color: #888;">Cost</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Paid By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTable">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 10px;">2026-04-22</td>
+                            <td style="padding: 10px;">Domain: effortlessonboarding.com (1 year)</td>
+                            <td style="padding: 10px;">Infrastructure</td>
+                            <td style="padding: 10px; text-align: right;">$10.19</td>
+                            <td style="padding: 10px;">Kyle (personal)</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid rgba(255,255,255,0.3);">
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Total Spent:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold; color: #ff6b6b;" id="totalExpenses">$10.19</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
             
-            <div class="workflow">
-                <div class="workflow-step">
-                    <div class="icon">👋</div>
-                    <p>Lead Inquires</p>
-                </div>
-                <div class="workflow-arrow">→</div>
-                <div class="workflow-step">
-                    <div class="icon">📅</div>
-                    <p>Auto-Scheduled</p>
-                </div>
-                <div class="workflow-arrow">→</div>
-                <div class="workflow-step">
-                    <div class="icon">📧</div>
-                    <p>Follow-up Sequence</p>
-                </div>
-                <div class="workflow-arrow">→</div>
-                <div class="workflow-step">
-                    <div class="icon">✍️</div>
-                    <p>Contract Signed</p>
-                </div>
-                <div class="workflow-arrow">→</div>
-                <div class="workflow-step">
-                    <div class="icon">💰</div>
-                    <p>Payment Received</p>
-                </div>
-                <div class="workflow-arrow">→</div>
-                <div class="workflow-step">
-                    <div class="icon">🎉</div>
-                    <p>Client Onboarded</p>
+            <div class="section">
+                <h2>📊 Budget Overview</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">STARTING BUDGET</div>
+                        <div style="font-size: 24px; font-weight: bold;">$100.00</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">TOTAL SPENT</div>
+                        <div style="font-size: 24px; font-weight: bold; color: #ff6b6b;" id="budgetSpent">$10.19</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">REMAINING</div>
+                        <div style="font-size: 24px; font-weight: bold; color: #4ade80;" id="budgetRemaining">$89.81</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="benefits">
-                <div class="benefit">
-                    <span class="number">5-15</span>
-                    <p>Hours saved per week (typical)</p>
-                </div>
-                <div class="benefit">
-                    <span class="number">2-3x</span>
-                    <p>Faster response times</p>
-                </div>
-                <div class="benefit">
-                    <span class="number">24/7</span>
-                    <p>Lead capture (even while you sleep)</p>
-                </div>
-                <div class="benefit">
-                    <span class="number">1</span>
-                    <p>Consistent experience, every time</p>
-                </div>
+            <div class="section">
+                <h2>💰 Revenue Tracker</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                            <th style="text-align: left; padding: 10px; color: #888;">Date</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Source</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Client/Project</th>
+                            <th style="text-align: right; padding: 10px; color: #888;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="revenueTable">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 10px;">-</td>
+                            <td style="padding: 10px;">No revenue yet</td>
+                            <td style="padding: 10px;">-</td>
+                            <td style="padding: 10px; text-align: right;">$0.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid rgba(255,255,255,0.3);">
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Total Revenue:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold; color: #4ade80;" id="totalRevenue">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Net Profit:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold;" id="netProfit">$0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
-    </section>
-
-    <!-- Services/Pricing Section -->
-    <section class="services" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Start with a free audit. Then choose the package that fits your needs.</p>
+        
+        <!-- Decisions -->
+        <div class="tab-content" id="decisions">
+            <div class="section">
+                <h2>📝 Decisions Log</h2>
+                <ul class="task-list" id="decisionsList">
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Business Model: AI Automation Agency</div>
+                            <div class="task-meta">2026-04-22 • Chosen as primary revenue engine</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Target Niche: Coaches, Consultants, Professional Services</div>
+                            <div class="task-meta">2026-04-22 • Higher margins, shorter sales cycle</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Content Strategy: YouTube + TikTok documentary</div>
+                            <div class="task-meta">2026-04-22 • Parallel audience building</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple password protection (in real app, use proper auth)
+        const PASSWORD = 'NateKyle2024!';
+        
+        function login() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                localStorage.setItem('dashboardAuth', 'true');
+                loadTasks();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('dashboardAuth');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        // Check if already logged in
+        if (localStorage.getItem('dashboardAuth') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadTasks();
+        }
+        
+        // Enter key to login
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+        
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
             
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <h3>🔍 Automation Audit</h3>
-                    <div class="price">Free</div>
-                    <p>Perfect for exploring what's possible</p>
-                    <ul>
-                        <li>30-minute consultation</li>
-                        <li>Review of current workflow</li>
-                        <li>Custom automation roadmap</li>
-                        <li>ROI calculation</li>
-                        <li>No obligation</li>
-                    </ul>
-                    <a href="#audit" class="btn btn-secondary" style="width: 100%;">Book Free Audit</a>
-                </div>
-                
-                <div class="pricing-card featured">
-                    <h3>⚡ Automation Setup</h3>
-                    <div class="price">$1,500-5,000<span>one-time</span></div>
-                    <p>Custom automation built for your workflow</p>
-                    <ul>
-                        <li>Custom workflow design</li>
-                        <li>Full implementation</li>
-                        <li>Integration with your tools</li>
-                        <li>Testing & refinement</li>
-                        <li>30 days support</li>
-                        <li>Documentation & training</li>
-                    </ul>
-                    <a href="#audit" class="btn btn-primary" style="width: 100%;">Get Started</a>
-                </div>
-                
-                <div class="pricing-card">
-                    <h3>🛠️ Maintenance & Support</h3>
-                    <div class="price">$350<span>/month</span></div>
-                    <p>Keep everything running smoothly</p>
-                    <ul>
-                        <li>Monthly optimization</li>
-                        <li>Bug fixes & updates</li>
-                        <li>Priority support</li>
-                        <li>Workflow adjustments</li>
-                        <li>Performance monitoring</li>
-                    </ul>
-                    <a href="#audit" class="btn btn-secondary" style="width: 100%;">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta" id="audit">
-        <div class="container">
-            <h2>Ready to Automate Your Client Experience?</h2>
-            <p>Book your free 30-minute automation audit. We'll identify your biggest time-wasters and show you exactly what to automate first.</p>
-            <a href="mailto:hello@effortlessonboarding.com?subject=Free Automation Audit Request" class="btn btn-secondary btn-large">Book Your Free Audit</a>
-            <p style="margin-top: 1rem; font-size: 0.875rem; opacity: 0.8;">📧 Or email: hello@effortlessonboarding.com</p>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2>Frequently Asked Questions</h2>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <h3>What tools do you use for automation?</h3>
-                    <p>We primarily use n8n, Make.com, and custom integrations depending on your needs. We work with your existing tools — Calendly, Stripe, CRMs, email platforms, etc.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How long does setup take?</h3>
-                    <p>Most automation setups take 1-2 weeks from kickoff to launch. Complex multi-step workflows may take 3-4 weeks.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Do I need technical knowledge?</h3>
-                    <p>Nope! We handle all the technical work. You just need to know your workflow — we'll translate that into automation.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What if I need changes later?</h3>
-                    <p>That's what our maintenance plan is for. Or you can request one-off changes at our hourly rate ($150/hr).</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Is my data secure?</h3>
-                    <p>We use established tools like n8n, Make.com, and your existing platforms (Stripe, Calendly, etc.) — all of which have strong security practices. Your data stays in your accounts; we just connect the dots.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p><strong>Effortless Onboarding</strong></p>
-            <p>Client onboarding automation for coaches & consultants</p>
-            <p style="margin-top: 1rem;">📧 hello@effortlessonboarding.com</p>
-            <p style="margin-top: 2rem; font-size: 0.875rem;">© 2026 Effortless Onboarding. All rights reserved.</p>
-        </div>
-    </footer>
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle('checked');
+            const taskItem = checkbox.closest('.task-item');
+            taskItem.classList.toggle('completed');
+            
+            // Save to localStorage
+            const taskId = taskItem.getAttribute('data-task');
+            const isCompleted = checkbox.classList.contains('checked');
+            localStorage.setItem('task_' + taskId, isCompleted);
+        }
+        
+        function loadTasks() {
+            // Restore task states from localStorage
+            document.querySelectorAll('.task-item').forEach(item => {
+                const taskId = item.getAttribute('data-task');
+                if (taskId && localStorage.getItem('task_' + taskId) === 'true') {
+                    const checkbox = item.querySelector('.task-checkbox');
+                    checkbox.classList.add('checked');
+                    checkbox.innerHTML = '✓';
+                    item.classList.add('completed');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
