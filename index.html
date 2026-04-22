@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nate & Kyle - Mission Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .login-box h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .login-box p {
+            color: #888;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .login-box input::placeholder {
+            color: #666;
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .login-box button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .dashboard {
+            display: none;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+        }
+        
+        .header .subtitle {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-card .label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .stat-card .value.positive {
+            color: #4ade80;
+        }
+        
+        .stat-card .value.negative {
+            color: #ff6b6b;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            transition: background 0.2s;
+        }
+        
+        .task-item:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .task-item.completed {
+            opacity: 0.6;
+        }
+        
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .task-checkbox.checked {
+            background: #4ade80;
+            border-color: #4ade80;
+        }
+        
+        .task-checkbox.checked::after {
+            content: "✓";
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-text {
+            font-size: 15px;
+        }
+        
+        .task-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        
+        .priority-high {
+            color: #ff6b6b;
+        }
+        
+        .priority-medium {
+            color: #fbbf24;
+        }
+        
+        .priority-low {
+            color: #4ade80;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .badge-done {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            border-radius: 10px;
+            color: #888;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .tab.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .add-task {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .add-task input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .add-task button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .stat-card .value {
+                font-size: 24px;
+            }
+            
+            .login-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>🦊 Nate & Kyle</h1>
+            <p>Mission Dashboard</p>
+            <input type="password" id="passwordInput" placeholder="Enter password">
+            <button onclick="login()">Enter Dashboard</button>
+            <div class="error" id="loginError">Incorrect password</div>
+        </div>
+    </div>
+    
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="header">
+            <div>
+                <h1>🎯 Mission Dashboard</h1>
+                <div class="subtitle">$100 → $20,000 in 90 days</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Starting Budget</div>
+                <div class="value">$100</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Revenue</div>
+                <div class="value positive" id="revenue">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Expenses</div>
+                <div class="value negative" id="expenses">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Net Profit</div>
+                <div class="value" id="profit">$0</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('business')">💼 Business Tasks</button>
+            <button class="tab" onclick="switchTab('content')">🎬 Content</button>
+            <button class="tab" onclick="switchTab('nate')">🤖 Nate's Tasks</button>
+            <button class="tab" onclick="switchTab('finances')">💰 Finances</button>
+            <button class="tab" onclick="switchTab('decisions')">📝 Decisions</button>
+        </div>
+        
+        <!-- Business Tasks -->
+        <div class="tab-content active" id="business">
+            <div class="section">
+                <h2>🔴 Kyle's Tasks (Business)</h2>
+                <ul class="task-list" id="kyleBusinessTasks">
+                    <li class="task-item completed" data-task="domain">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Register domain: effortlessonboarding.com ($10.19)</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="email">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Set up business email (Google Workspace or Zoho)</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="stripe">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create Stripe account</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="network">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Identify 10 potential clients in network</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Day 3</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="calendly">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Set up Calendly/scheduling link</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Day 2-3</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Content Tasks -->
+        <div class="tab-content" id="content">
+            <div class="section">
+                <h2>🎥 Kyle's Tasks (Content)</h2>
+                <ul class="task-list" id="kyleContentTasks">
+                    <li class="task-item" data-task="tiktok">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create TikTok account</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="youtube">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Create YouTube channel</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 1-2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="day0">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Film first "Day 0" video (intro + challenge)</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Day 2</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="tiktoks">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Post 3 TikToks this week</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Week 1</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>📝 Nate's Tasks (Content)</h2>
+                <ul class="task-list" id="nateContentTasks">
+                    <li class="task-item completed" data-task="review">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Review Kyle's footage, suggest edits</div>
+                            <div class="task-meta"><span class="priority-high">High</span> • Ready</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="scripts">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Write video scripts/outlines</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Nate's Tasks -->
+        <div class="tab-content" id="nate">
+            <div class="section">
+                <h2>🤖 Nate's Tasks</h2>
+                <ul class="task-list" id="nateTasks">
+                    <li class="task-item completed" data-task="direction">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Await business direction from Kyle</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="niche">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Research specific automation niches</div>
+                            <div class="task-meta"><span class="badge badge-pending">In Progress</span> • Day 1</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="landing">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Build landing page</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="outreach">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Draft cold outreach templates</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Finances -->
+        <div class="tab-content" id="finances">
+            <div class="section">
+                <h2>💳 Expense Tracker</h2>
+                <p style="color: #888; margin-bottom: 15px;">Currently using Kyle's personal card. Will switch to business card later.</p>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                            <th style="text-align: left; padding: 10px; color: #888;">Date</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Item</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Category</th>
+                            <th style="text-align: right; padding: 10px; color: #888;">Cost</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Paid By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTable">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 10px;">2026-04-22</td>
+                            <td style="padding: 10px;">Domain: effortlessonboarding.com (1 year)</td>
+                            <td style="padding: 10px;">Infrastructure</td>
+                            <td style="padding: 10px; text-align: right;">$10.19</td>
+                            <td style="padding: 10px;">Kyle (personal)</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid rgba(255,255,255,0.3);">
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Total Spent:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold; color: #ff6b6b;" id="totalExpenses">$10.19</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Budget Overview</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">STARTING BUDGET</div>
+                        <div style="font-size: 24px; font-weight: bold;">$100.00</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">TOTAL SPENT</div>
+                        <div style="font-size: 24px; font-weight: bold; color: #ff6b6b;" id="budgetSpent">$10.19</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                        <div style="color: #888; font-size: 12px;">REMAINING</div>
+                        <div style="font-size: 24px; font-weight: bold; color: #4ade80;" id="budgetRemaining">$89.81</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💰 Revenue Tracker</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.2);">
+                            <th style="text-align: left; padding: 10px; color: #888;">Date</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Source</th>
+                            <th style="text-align: left; padding: 10px; color: #888;">Client/Project</th>
+                            <th style="text-align: right; padding: 10px; color: #888;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="revenueTable">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <td style="padding: 10px;">-</td>
+                            <td style="padding: 10px;">No revenue yet</td>
+                            <td style="padding: 10px;">-</td>
+                            <td style="padding: 10px; text-align: right;">$0.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="border-top: 2px solid rgba(255,255,255,0.3);">
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Total Revenue:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold; color: #4ade80;" id="totalRevenue">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding: 10px; text-align: right; font-weight: bold;">Net Profit:</td>
+                            <td style="padding: 10px; text-align: right; font-weight: bold;" id="netProfit">$0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Decisions -->
+        <div class="tab-content" id="decisions">
+            <div class="section">
+                <h2>📝 Decisions Log</h2>
+                <ul class="task-list" id="decisionsList">
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Business Model: AI Automation Agency</div>
+                            <div class="task-meta">2026-04-22 • Chosen as primary revenue engine</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Target Niche: Coaches, Consultants, Professional Services</div>
+                            <div class="task-meta">2026-04-22 • Higher margins, shorter sales cycle</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed">
+                        <div class="task-checkbox checked">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Content Strategy: YouTube + TikTok documentary</div>
+                            <div class="task-meta">2026-04-22 • Parallel audience building</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple password protection (in real app, use proper auth)
+        const PASSWORD = 'NateKyle2024!';
+        
+        function login() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                localStorage.setItem('dashboardAuth', 'true');
+                loadTasks();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('dashboardAuth');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+        }
+        
+        // Check if already logged in
+        if (localStorage.getItem('dashboardAuth') === 'true') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadTasks();
+        }
+        
+        // Enter key to login
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+        
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        function toggleTask(checkbox) {
+            checkbox.classList.toggle('checked');
+            const taskItem = checkbox.closest('.task-item');
+            taskItem.classList.toggle('completed');
+            
+            // Save to localStorage
+            const taskId = taskItem.getAttribute('data-task');
+            const isCompleted = checkbox.classList.contains('checked');
+            localStorage.setItem('task_' + taskId, isCompleted);
+        }
+        
+        function loadTasks() {
+            // Restore task states from localStorage
+            document.querySelectorAll('.task-item').forEach(item => {
+                const taskId = item.getAttribute('data-task');
+                if (taskId && localStorage.getItem('task_' + taskId) === 'true') {
+                    const checkbox = item.querySelector('.task-checkbox');
+                    checkbox.classList.add('checked');
+                    checkbox.innerHTML = '✓';
+                    item.classList.add('completed');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
