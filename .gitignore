@@ -1,8 +1,5 @@
 # Local files - not for public repo
 memory/
+companies/
 *.md
 .gitignore
-
-# Allow company files
-!companies/
-!companies/**/*.md
