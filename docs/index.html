@@ -404,7 +404,6 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('business')">💼 Business Tasks</button>
             <button class="tab" onclick="switchTab('content')">🎬 Content</button>
-            <button class="tab" onclick="switchTab('nate')">🤖 Nate's Tasks</button>
             <button class="tab" onclick="switchTab('finances')">💰 Finances</button>
             <button class="tab" onclick="switchTab('decisions')">📝 Decisions</button>
         </div>
@@ -447,6 +446,47 @@
                         <div class="task-content">
                             <div class="task-text">Set up Calendly/scheduling link</div>
                             <div class="task-meta"><span class="priority-medium">Medium</span> • Day 2-3</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🤖 Nate's Tasks (Business)</h2>
+                <ul class="task-list" id="nateBusinessTasks">
+                    <li class="task-item completed" data-task="direction">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Await business direction from Kyle</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed" data-task="niche">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Research specific automation niches</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item completed" data-task="landing">
+                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
+                        <div class="task-content">
+                            <div class="task-text">Build landing page</div>
+                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="outreach">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Draft cold outreach templates</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
+                        </div>
+                    </li>
+                    <li class="task-item" data-task="linkedin">
+                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
+                        <div class="task-content">
+                            <div class="task-text">Research LinkedIn prospects</div>
+                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
                         </div>
                     </li>
                 </ul>
@@ -502,43 +542,6 @@
                         <div class="task-checkbox" onclick="toggleTask(this)"></div>
                         <div class="task-content">
                             <div class="task-text">Write video scripts/outlines</div>
-                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        
-        <!-- Nate's Tasks -->
-        <div class="tab-content" id="nate">
-            <div class="section">
-                <h2>🤖 Nate's Tasks</h2>
-                <ul class="task-list" id="nateTasks">
-                    <li class="task-item completed" data-task="direction">
-                        <div class="task-checkbox checked" onclick="toggleTask(this)">✓</div>
-                        <div class="task-content">
-                            <div class="task-text">Await business direction from Kyle</div>
-                            <div class="task-meta"><span class="badge badge-done">Done</span> • 2026-04-22</div>
-                        </div>
-                    </li>
-                    <li class="task-item" data-task="niche">
-                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
-                        <div class="task-content">
-                            <div class="task-text">Research specific automation niches</div>
-                            <div class="task-meta"><span class="badge badge-pending">In Progress</span> • Day 1</div>
-                        </div>
-                    </li>
-                    <li class="task-item" data-task="landing">
-                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
-                        <div class="task-content">
-                            <div class="task-text">Build landing page</div>
-                            <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
-                        </div>
-                    </li>
-                    <li class="task-item" data-task="outreach">
-                        <div class="task-checkbox" onclick="toggleTask(this)"></div>
-                        <div class="task-content">
-                            <div class="task-text">Draft cold outreach templates</div>
                             <div class="task-meta"><span class="priority-medium">Medium</span> • Ready</div>
                         </div>
                     </li>
