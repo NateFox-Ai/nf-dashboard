@@ -2,3 +2,7 @@
 memory/
 *.md
 .gitignore
+
+# Allow company files
+!companies/
+!companies/**/*.md
