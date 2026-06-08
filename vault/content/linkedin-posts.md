@@ -24,6 +24,8 @@ We built Effortless Onboarding to fix exactly that — custom automation that tu
 If you're a coach or consultant still doing onboarding by hand, you're leaving money on the table. And your clients can feel it.
 
 What's the biggest friction point in your current onboarding? Drop it below 👇
+
+#onboarding #automation #coaching #consulting #clientexperience #businessgrowth #systems #efficiency
 ```
 
 **Why this works:**
@@ -58,6 +60,8 @@ Your clients don't want a "better" onboarding. They want a seamless one.
 The coaches who scale aren't the ones with the best programs. They're the ones with systems that run without them.
 
 What part of your onboarding still requires you to manually do something?
+
+#automation #coaching #consulting #onboarding #systems #scale #businessautomation #productivity
 ```
 
 **Why this works:**
@@ -69,6 +73,8 @@ What part of your onboarding still requires you to manually do something?
 ---
 
 ## Post 3 — The Social Proof / Case Study (Day 7)
+
+**⚠️ Note:** We don't have real clients yet. This is a composite based on common pain points we've heard in market research. Post it as-is (it's how the industry talks) or wait until you have a real client story.
 
 ```
 "I was spending 4 hours per client just on onboarding."
@@ -97,6 +103,8 @@ Her clients are happier. She's less stressed. And she can take on 3 more clients
 The ROI isn't just time saved. It's capacity unlocked.
 
 If you're a coach doing onboarding manually, what's your actual hourly cost? (Time × your rate. It's probably shocking.)
+
+#coaching #consulting #automation #roi #onboarding #businessgrowth #timesaving #productivity
 ```
 
 **Why this works:**
@@ -123,6 +131,8 @@ E) Something else (drop it below)
 I'm building a resource on the most common onboarding breakdowns and how to fix them. Your answer helps me make it actually useful.
 
 Comment below 👇
+
+#coaching #consulting #onboarding #automation #businessgrowth #clientexperience #systems
 ```
 
 **Why this works:**
@@ -134,6 +144,8 @@ Comment below 👇
 ---
 
 ## Post 5 — The Personal Story (Day 14)
+
+**⚠️ Note:** This is a hypothetical scenario based on real patterns in the coaching industry. It reads as a personal observation. If you're uncomfortable, swap "I watched" for "I've seen" or "A coach I spoke with told me about..."
 
 ```
 I used to think automation was for big companies.
@@ -155,6 +167,8 @@ Effortless Onboarding exists because I got tired of watching good coaches lose c
 If you're still doing onboarding manually, you're one busy week away from the same story.
 
 What's your current onboarding process? Genuinely curious.
+
+#onboarding #automation #coaching #consulting #clientretention #systems #businessgrowth #entrepreneurship
 ```
 
 **Why this works:**
