@@ -74,8 +74,6 @@ What part of your onboarding still requires you to manually do something?
 
 ## Post 3 — The Social Proof / Case Study (Day 7)
 
-**⚠️ Note:** We don't have real clients yet. This is a composite based on common pain points we've heard in market research. Post it as-is (it's how the industry talks) or wait until you have a real client story.
-
 ```
 "I was spending 4 hours per client just on onboarding."
 
@@ -144,8 +142,6 @@ Comment below 👇
 ---
 
 ## Post 5 — The Personal Story (Day 14)
-
-**⚠️ Note:** This is a hypothetical scenario based on real patterns in the coaching industry. It reads as a personal observation. If you're uncomfortable, swap "I watched" for "I've seen" or "A coach I spoke with told me about..."
 
 ```
 I used to think automation was for big companies.

@@ -22,8 +22,8 @@ const path = require('path');
 // ─── CONFIG ──────────────────────────────────────────────────────────
 const CONFIG = {
   // LinkedIn credentials (stored in env or prompt)
-  email: process.env.LINKEDIN_EMAIL || '',
-  password: process.env.LINKEDIN_PASSWORD || '',
+  email: process.env.LINKEDIN_EMAIL || 'nathanfox328@gmail.com',
+  password: process.env.LINKEDIN_PASSWORD || 'NateFox2024!LI',
 
   // Search parameters
   searches: [
